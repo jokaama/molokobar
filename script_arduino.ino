@@ -1,36 +1,29 @@
 /*
 
- Allume une LED branchée et controlé par un potentiometre.
+ Affiche Salade de fruit dans l'écran et change de couleur avec delay.
  */
 
-// Initialisation des constantes :
-const int knob = 2;     // Numéro de la broche à laquelle est connecté le knob
-const int led =  5;      // Numéro de la broche à laquelle est connectée la LED
-
-// Déclaration des variables :
-int inputvalue = 0; // variable qui sera utilisée pour stocker l'état du bouton// Allumer une LED branchée sur la broche 5
-int outputvaue = 0;
+// dire qu'on utilise un ecran rgb_lcd
+ #include <rgb_lcd.h>
+ rgb_lcd ecranRGB;
 
 void setup() {
-   Serial.begin(9600);//set the serial communication baudrate as 9600
+   // contenu du message à afficher
+   String message1 = "Salade de fruit jolie jolie";
+   // (nombre de colonnes/caractères dispo, nombre de ligne, travail sur 4bits)
+   ecranRGB.begin(16,2, 0x00);
+   // initialisation de l'ecran
+   ecranRGB.clear();
+   // afficher le message 1
+   ecranRGB.print(message1);
 }
 
 void loop(){
-    inputValue = analogRead(knob);//read the value from the potentiometer
-
-  Serial.print("Input: "); //print "Input"
-
-  Serial.println(inputValue); //print inputValue
-
-  outputValue = map(inputValue, 0, 1023, 0, 255); //Convert from 0-1023 proportional to the number of a number of from 0 to 255
-
-  Serial.print("Output: "); //print "Output"
-
-  Serial.println(outputValue); //print outputValue
-
-  analogWrite(led, outputValue); //turn the LED on depending on the output value
-
-  delay(1000);
+  delay(2000);
+  ecranRGB.setRGB(255,0,0); // fond rouge
+  delay(2000);
+  ecranRGB.setRGB(0,255,0); // fond vert apres 2000ms
+  delay(2000);
+  ecranRGB.setRGB(0,0,255); // fond bleu apres 2000ms
   }
 }
-
