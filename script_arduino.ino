@@ -1,33 +1,36 @@
 /*
 
- Allume une LED branchée sur la broche 13 lorsque le bouton
- connecté sur la broche 2 est appuyé.
+ Allume une LED branchée et controlé par un potentiometre.
  */
 
 // Initialisation des constantes :
-const int bouton = 2;     // Numéro de la broche à laquelle est connecté le bouton poussoir
+const int knob = 2;     // Numéro de la broche à laquelle est connecté le knob
 const int led =  5;      // Numéro de la broche à laquelle est connectée la LED
 
 // Déclaration des variables :
-int etatBouton = 0;         // variable qui sera utilisée pour stocker l'état du bouton// Allumer une LED branchée sur la broche 5
+int inputvalue = 0; // variable qui sera utilisée pour stocker l'état du bouton// Allumer une LED branchée sur la broche 5
+int outputvaue = 0;
 
 void setup() {
-    // indique que la broche led est une sortie :
-  pinMode(led,OUTPUT);
-  // indique que la broche bouton est une entrée :
-  pinMode(bouton, INPUT);
+   Serial.begin(9600);//set the serial communication baudrate as 9600
 }
 
 void loop(){
-  // lit l'état du bouton et stocke le résultat dans etatBouton
-  etatBouton = digitalRead(bouton);
-  // Si etatBouton est à 5V (HIGH) c'est que le bouton est appuyé
-  if (etatBouton == HIGH) {
-    // on allume la LED
-  digintalWrite(led,HIGH);
-  }
-  else {
-    // sinon on éteint
-  digitalWrite(led,LOW);
+    inputValue = analogRead(knob);//read the value from the potentiometer
+
+  Serial.print("Input: "); //print "Input"
+
+  Serial.println(inputValue); //print inputValue
+
+  outputValue = map(inputValue, 0, 1023, 0, 255); //Convert from 0-1023 proportional to the number of a number of from 0 to 255
+
+  Serial.print("Output: "); //print "Output"
+
+  Serial.println(outputValue); //print outputValue
+
+  analogWrite(led, outputValue); //turn the LED on depending on the output value
+
+  delay(1000);
   }
 }
+
